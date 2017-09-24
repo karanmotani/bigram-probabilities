@@ -57,6 +57,27 @@ def calcBigramProb(listOfBigrams, unigramCounts, bigramCounts):
 	return listOfProb
 
 
+def addOneSmothing(listOfBigrams, unigramCounts, bigramCounts):
+
+	listOfProb = {}
+
+	for bigram in listOfBigrams:
+		
+		word1 = bigram[0]
+		word2 = bigram[1]
+		
+		listOfProb[bigram] = (bigramCounts.get(bigram) + 1)/(unigramCounts.get(word1) + len(unigramCounts))
+
+	# file = open('bigramProb.txt', 'w')
+	# json.dump((listOfProb), file)
+	# file.close()
+
+	with open('addOneSmoothingProb.txt', 'wb') as file:
+		pickle.dump(listOfProb, file)
+
+	return listOfProb
+
+
 if __name__ == '__main__':
 	
 	fileName = 'HW2_F17_NLP6320-NLPCorpusTreebank2Parts-CorpusA-Unix.txt'
@@ -66,4 +87,7 @@ if __name__ == '__main__':
 
 	bigramProb = calcBigramProb(listOfBigrams, unigramCounts, bigramCounts)
 
-	
+	bigramProbAddOne = addOneSmothing(listOfBigrams, unigramCounts, bigramCounts)
+
+	# bigramGoodTuring = goodTuringDiscounting(listOfBigrams, unigramCounts, bigramCounts)
+
